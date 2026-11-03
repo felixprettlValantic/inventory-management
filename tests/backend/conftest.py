@@ -12,6 +12,15 @@ server_path = Path(__file__).parent.parent.parent / "server"
 sys.path.insert(0, str(server_path))
 
 from main import app
+from mock_data import restocking_orders
+
+
+@pytest.fixture(autouse=True)
+def reset_restocking_orders():
+    """Clear the in-memory restocking orders so tests do not see each other's submissions."""
+    restocking_orders.clear()
+    yield
+    restocking_orders.clear()
 
 
 @pytest.fixture
